@@ -1,6 +1,8 @@
 from django.urls import path
-from django.http import HttpResponse
+from .views import user_profile_home, profile
 
 urlpatterns = [
-	path("home/",lambda request: HttpResponse("welcome to user home page")),
-	]
+	path("home/",user_profile_home),
+	path("profile/",profile),
+
+]

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def home(request):
-	return HttpResponse("welcome to home page")
+	return HttpResponse("welcome epocket home page")
 
 def contact(request):
 	return HttpResponse("this is contact page")
@@ -14,4 +14,3 @@ def about(request):
 
 
 
-# Create your views here.

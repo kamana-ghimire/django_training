@@ -1,6 +1,7 @@
 from django.urls import path
-from django.http import HttpResponse
+
+from .views import home, contact, gallery, about
 
 urlpatterns = [
-	path("home/",lambda request: HttpResponse("welcome to epocket home page")),
-	]
+	path("home/", home),
+]

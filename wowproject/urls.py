@@ -13,17 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+#  main urls
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.epocket.views import home,contact,gallery,about
+
 urlpatterns = [
-	path("",home),
+	path("",lambda request: HttpResponse("welcome  project home page")),
     path('admin/', admin.site.urls),
     path("user/", include("apps.user_profile.urls")),
     path("account/", include("apps.account.urls")),
     path("epocket/", include("apps.epocket.urls")),
-    path("contact/",contact),
-    path("gallery/",gallery),
-    path("about/",about),
     ]
