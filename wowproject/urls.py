@@ -17,12 +17,19 @@ Including another URLconf
 #  main urls
 from django.contrib import admin
 from django.urls import path, include
+from apps.epocket.views import home
+admin.site.site_header = "epocket Admin"
+admin.site.site_title = "epocket Admin Portal"
+admin.site.index_title = "Welcome to epocket Researcher Portal"
 
 
 urlpatterns = [
-	
+
+
+    path("",home,name = "home"),
     path('admin/', admin.site.urls),
-    path("user/", include("apps.user_profile.urls")),
-    path("account/", include("apps.account.urls")),
-    path("epocket/", include("apps.epocket.urls")),
+    path("", include("apps.user_profile.urls")),
+    path("", include("apps.account.urls")),
+    path("", include("apps.epocket.urls")),
     ]
+

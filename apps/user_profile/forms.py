@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 class CustomUserCreationForm(UserCreationForm):
 	mobile_no = forms.CharField(max_length = 15)
+	balance = forms.IntegerField()
 
 	class metal:
 		model = User

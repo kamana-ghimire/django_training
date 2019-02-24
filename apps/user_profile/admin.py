@@ -1,22 +1,45 @@
-import time
 from datetime import date
+
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+
 from .models import Profile
+from apps.account.models import Account
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-	list_display = ("contact_no","address","nationality","gender","occupation","dob","get_age")
-	list_display_links = ("contact_no","dob","occupation")
-	list_editable = ("nationality","gender")
-	list_per_page = 10
-	list_filter = ("gender","dob","nationality")
-	date_hierarchy = "dob"
-	search_fields = ("contact_no","address")
-	def get_age(self,instance):
-		timedelta_obj = date.today() - instance.dob
-		return int(timedelta_obj.days//365.25)
+admin.site.unregister(User)
 
-	get_age.short_description = "age"
-#admin.site.register(Profile,ProfileAdmin)	
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'
+
+class AccountInline(admin.StackedInline):
+    model = Account
+    can_delete = False
+    verbose_name_plural = 'Account'
+    fk_name = 'user'
+
+@admin.register(User)
+class CustomUserAdmin(UserAdmin):
+    inlines = (ProfileInline, AccountInline)
+    list_display = ('username', 'get_contact', 'email', 'first_name', 'last_name', 'is_staff', 'get_balance')
+    list_select_related = ('profile', 'account')
+
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+    
+    def get_contact(self, instance):
+        return instance.profile.contact_no
+
+    get_contact.short_description = 'Mobile'
+
+    def get_balance(self, instance):
+        return instance.account.balance
+
+    get_balance.short_description = 'Available Balance'
 
 
